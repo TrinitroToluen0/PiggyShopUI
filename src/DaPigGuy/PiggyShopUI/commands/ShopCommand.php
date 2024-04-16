@@ -33,7 +33,7 @@ class ShopCommand extends BaseCommand{
                 $sender->sendMessage(PiggyShopUI::getInstance()->getMessage("menu.category.no-permission"));
                 return;
             }
-            $this->showCategoryItems($sender, $args["category"], false);
+            $this->showCategoryItems($sender, $args["category"]);
             return;
         }
         $this->showCategories($sender);
@@ -60,7 +60,7 @@ class ShopCommand extends BaseCommand{
         $player->sendForm($form);
     }
 
-    public function showCategoryItems(Player $player, ShopCategory $category, bool $backButton = true): void
+    public function showCategoryItems(Player $player, ShopCategory $category, bool $backButton = false): void
     {
         $entries = array_merge($category->getSubCategories(), $category->getItems());
         if (count($entries) === 0) {
@@ -161,7 +161,7 @@ class ShopCommand extends BaseCommand{
                 (($item->canBuy() ? PiggyShopUI::getInstance()->getMessage("menu.item.purchase-price", ["{PRICE}" => (string)$item->getBuyPrice()]) : "") . "\n" .
                     ($item->canSell() ? (PiggyShopUI::getInstance()->getMessage("menu.item.sell-price", ["{PRICE}" => (string)$item->getSellPrice()])) : ""))
             );
-            $form->addInput("Cantidad");
+            $form->addInput("Ingresa la cantidad");
             if ($item->canBuy() && $item->canSell()) $form->addToggle("Sell", false);
             $player->sendForm($form);
         });
